@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#0a0b0e;font-family:'Barlow',system-ui,sans-serif;color:#f5f6f8;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#7fa2ff;text-decoration:none}
+  a:hover{color:#a9c0ff}
+  ::selection{background:rgba(255,67,38,.35)}
+  input::placeholder{color:#5f656e}
+  @keyframes hcPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.82)}}
+  @keyframes hcSheen{0%{transform:translateX(-120%) rotate(8deg)}60%,100%{transform:translateX(240%) rotate(8deg)}}
+  @keyframes hcFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-10px) rotate(-4deg)}}
+</style>
+</helmet>
+
+<div style="width:100%;overflow-x:hidden">
+
+  <!-- ================= HERO ================= -->
+  <section data-screen-label="Hero" style="position:relative;width:100%;background:radial-gradient(80% 60% at 6% 0%,rgba(255,67,38,.26),transparent 48%),radial-gradient(80% 70% at 100% 100%,rgba(47,107,255,.28),transparent 52%),#0a0b0e;border-bottom:1px solid rgba(255,255,255,.06)">
+    <div style="max-width:1120px;margin:0 auto;padding:clamp(52px,7vw,104px) clamp(22px,5vw,52px) clamp(48px,6vw,88px)">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(36px,5vw,72px);align-items:center">
+
+        <!-- colonne texte + form -->
+        <div style="min-width:0">
+          <div style="display:inline-flex;align-items:center;gap:9px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14)">
+            <span style="width:7px;height:7px;border-radius:50%;background:#ff4326;animation:hcPulse 1.6s ease-in-out infinite"></span>
+            <span style="font:700 11px 'Barlow Semi Condensed',sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#e9ebef">100 places de membre fondateur</span>
+          </div>
+          <h1 style="margin:22px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(48px,8.5vw,88px);line-height:.9;text-transform:uppercase;color:#f5f6f8">Rejoins le<br><span style="background:linear-gradient(100deg,#ff5a2e 5%,#ff6a3d 35%,#2f6bff 95%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">Hybrid Club</span></h1>
+          <p style="margin:20px 0 0;font:400 clamp(16px,2.2vw,19px)/1.5 'Barlow',sans-serif;color:#b6bbc3;max-width:440px">Ton programme muscu + cardio et ton cadre alimentaire, générés par IA et 100% adaptés à ton profil.</p>
+          <div style="display:flex;align-items:center;gap:9px;margin:18px 0 0">
+            <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,#ff4326,#2f6bff);display:flex;align-items:center;justify-content:center;font:700 13px 'Barlow',sans-serif;color:#fff">H</span>
+            <span style="font:600 14px 'Barlow',sans-serif;color:#8a8f98">Par <span style="color:#e9ebef">Hybrid</span> · communauté 14k</span>
+          </div>
+          <div style="margin-top:28px;max-width:460px">
+            <sc-if value="{{ notDoneTop }}" hint-placeholder-val="{{ true }}">
+              <form onSubmit="{{ submitTop }}" style="display:flex;flex-wrap:wrap;gap:10px">
+                <input type="email" required value="{{ emailTop }}" onChange="{{ onEmailTop }}" placeholder="ton@email.com" style="flex:1 1 220px;min-width:0;background:#111318;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:16px 16px;color:#f5f6f8;font:400 16px 'Barlow',sans-serif;outline:none">
+                <button type="submit" disabled="{{ sendingTop }}" style="flex:1 1 200px;border:none;border-radius:12px;padding:16px 22px;font-family:'Anton',sans-serif;font-size:19px;letter-spacing:.04em;text-transform:uppercase;color:#fff;cursor:pointer;background:linear-gradient(100deg,#ff4326,#ff5a2e 32%,#2f6bff);box-shadow:0 10px 34px rgba(47,107,255,.28),0 6px 24px rgba(255,67,38,.24)">{{ labelTop }}</button>
+              </form>
+              <sc-if value="{{ errorTop }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:rgba(255,67,38,.09);border:1px solid rgba(255,67,38,.32);font:600 13px 'Barlow',sans-serif;color:#ff8b6d">Impossible d'enregistrer ton email. Réessaie dans un instant.</div>
+              </sc-if>
+            </sc-if>
+            <sc-if value="{{ doneTop }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:11px;padding:16px;border-radius:12px;background:rgba(47,107,255,.1);border:1px solid rgba(47,107,255,.35)">
+                <span style="flex:none;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#ff4326,#2f6bff);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">✓</span>
+                <span style="font:600 14px 'Barlow',sans-serif;color:#e9ebef">Ta place est réservée. On te contacte dès l'ouverture du club.</span>
+              </div>
+            </sc-if>
+            <p style="margin:12px 0 0;font:400 12px 'Barlow',sans-serif;color:#6b7079">Ton email ne sera jamais revendu. Désinscription en 1 clic.</p>
+          </div>
+        </div>
+
+        <!-- colonne carte fondateur -->
+        <div style="display:flex;justify-content:center;min-width:0">
+          <div style="width:min(340px,86vw);aspect-ratio:1.6/1;border-radius:20px;padding:1.6px;background:linear-gradient(135deg,#ff4326,#7a4bd6 45%,#2f6bff);box-shadow:0 30px 70px rgba(47,107,255,.32),0 16px 40px rgba(255,67,38,.24);animation:hcFloat 5.5s ease-in-out infinite">
+            <div style="position:relative;width:100%;height:100%;border-radius:18.5px;overflow:hidden;background:linear-gradient(150deg,#181c25,#0b0d12);padding:clamp(16px,4vw,22px);display:flex;flex-direction:column;justify-content:space-between">
+              <div style="position:absolute;top:0;left:0;width:70px;height:220%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);animation:hcSheen 5s ease-in-out infinite"></div>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <span style="font-family:'Anton',sans-serif;font-size:clamp(16px,4vw,19px);text-transform:uppercase;color:#f5f6f8">Hybrid Club</span>
+                <span style="width:34px;height:25px;border-radius:6px;background:linear-gradient(135deg,#ffb37a,#ff5a2e)"></span>
+              </div>
+              <span style="font:700 clamp(10px,2.4vw,11px) 'Barlow Semi Condensed',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#8a8f98">Membre fondateur</span>
+              <div style="display:flex;align-items:flex-end;justify-content:space-between">
+                <span style="font-family:'Anton',sans-serif;font-size:clamp(32px,8vw,40px);line-height:.9;background:linear-gradient(100deg,#ff5a2e,#2f6bff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">N° 001</span>
+                <span style="font:600 14px 'Barlow',sans-serif;color:#6b7079">/ 100</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LE PROBLÈME ================= -->
+  <section data-screen-label="Le probleme" style="width:100%;background:#08090b;border-bottom:1px solid rgba(255,255,255,.06)">
+    <div style="max-width:760px;margin:0 auto;padding:clamp(52px,7vw,96px) clamp(22px,5vw,52px)">
+      <span style="font:700 12px 'Barlow Semi Condensed',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#ff5a2e">Le vrai problème</span>
+      <p style="margin:18px 0 0;font-family:'Barlow',sans-serif;font-size:clamp(22px,3.4vw,30px);line-height:1.35;font-weight:500;color:#e9ebef">Les programmes PDF génériques ne s'adaptent ni à ton corps ni à ta progression. Et un coaching perso, c'est souvent <span style="color:#ff6a3d;font-weight:700">80 à 150€ par mois</span>.</p>
+      <p style="margin:18px 0 0;font:400 clamp(15px,2vw,18px)/1.6 'Barlow',sans-serif;color:#9a9fa8;max-width:560px">Le Hybrid Club te donne un cadre sur-mesure qui évolue avec toi — sans le prix d'un coach.</p>
+    </div>
+  </section>
+
+  <!-- ================= COMMENT ÇA MARCHE ================= -->
+  <section data-screen-label="Comment ca marche" style="width:100%;border-bottom:1px solid rgba(255,255,255,.06)">
+    <div style="max-width:1080px;margin:0 auto;padding:clamp(52px,7vw,96px) clamp(22px,5vw,52px)">
+      <span style="font:700 12px 'Barlow Semi Condensed',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8a8f98">Comment ça marche</span>
+      <h2 style="margin:12px 0 30px;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(32px,5vw,52px);line-height:1;text-transform:uppercase;color:#f5f6f8">3 étapes, c'est tout</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:18px;background:#111318;border:1px solid rgba(255,255,255,.08);height:100%">
+            <span style="font-family:'Anton',sans-serif;font-size:38px;line-height:1;background:linear-gradient(120deg,#ff5a2e,#2f6bff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">{{ s.n }}</span>
+            <h3 style="margin:0;font:700 19px 'Barlow',sans-serif;color:#f5f6f8">{{ s.title }}</h3>
+            <p style="margin:0;font:400 15px/1.55 'Barlow',sans-serif;color:#9a9fa8">{{ s.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= POUR QUI ================= -->
+  <section data-screen-label="Pour qui" style="width:100%;background:#08090b;border-bottom:1px solid rgba(255,255,255,.06)">
+    <div style="max-width:1080px;margin:0 auto;padding:clamp(52px,7vw,96px) clamp(22px,5vw,52px)">
+      <span style="font:700 12px 'Barlow Semi Condensed',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8a8f98">Pour qui</span>
+      <h2 style="margin:12px 0 14px;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(32px,5vw,52px);line-height:1;text-transform:uppercase;color:#f5f6f8">Fait pour toi</h2>
+      <p style="margin:0 0 30px;font:400 clamp(15px,2vw,18px)/1.6 'Barlow',sans-serif;color:#9a9fa8;max-width:560px">Ton programme est construit selon ton sexe et ton objectif. Voici les axes les plus demandés — tu choisis le tien au démarrage.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+        <div style="position:relative;overflow:hidden;border-radius:20px;padding:28px;background:radial-gradient(120% 90% at 100% 0%,rgba(255,67,38,.16),transparent 60%),#111318;border:1px solid rgba(255,67,38,.28)">
+          <span style="font:700 13px 'Barlow Semi Condensed',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#ff6a3d">Femmes</span>
+          <p style="margin:12px 0 20px;font:400 14px/1.55 'Barlow',sans-serif;color:#9a9fa8">Priorité au bas du corps et à la composition, sans prise de volume non désirée.</p>
+          <div style="display:flex;flex-direction:column;gap:0">
+            <div style="padding:14px 0;border-top:1px solid rgba(255,255,255,.08)">
+              <h4 style="margin:0 0 3px;font:700 16px 'Barlow',sans-serif;color:#f5f6f8">Fessiers &amp; bas du corps</h4>
+              <p style="margin:0;font:400 14px/1.5 'Barlow',sans-serif;color:#9a9fa8">Renforcement ciblé des hanches et de la chaîne postérieure.</p>
+            </div>
+            <div style="padding:14px 0;border-top:1px solid rgba(255,255,255,.08)">
+              <h4 style="margin:0 0 3px;font:700 16px 'Barlow',sans-serif;color:#f5f6f8">Tonification</h4>
+              <p style="margin:0;font:400 14px/1.5 'Barlow',sans-serif;color:#9a9fa8">Muscle plus visible, endurance en hausse, moins de gras.</p>
+            </div>
+            <div style="padding:14px 0;border-top:1px solid rgba(255,255,255,.08)">
+              <h4 style="margin:0 0 3px;font:700 16px 'Barlow',sans-serif;color:#f5f6f8">Recomposition</h4>
+              <p style="margin:0;font:400 14px/1.5 'Barlow',sans-serif;color:#9a9fa8">Perdre du gras et gagner du muscle en parallèle.</p>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative;overflow:hidden;border-radius:20px;padding:28px;background:radial-gradient(120% 90% at 100% 0%,rgba(47,107,255,.18),transparent 60%),#111318;border:1px solid rgba(47,107,255,.3)">
+          <span style="font:700 13px 'Barlow Semi Condensed',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#5b8bff">Hommes</span>
+          <p style="margin:12px 0 20px;font:400 14px/1.55 'Barlow',sans-serif;color:#9a9fa8">Force, volume et définition, selon la phase où tu te trouves.</p>
+          <div style="display:flex;flex-direction:column;gap:0">
+            <div style="padding:14px 0;border-top:1px solid rgba(255,255,255,.08)">
+              <h4 style="margin:0 0 3px;font:700 16px 'Barlow',sans-serif;color:#f5f6f8">Prise de masse</h4>
+              <p style="margin:0;font:400 14px/1.5 'Barlow',sans-serif;color:#9a9fa8">Volume musculaire avec un surplus calorique cadré.</p>
+            </div>
+            <div style="padding:14px 0;border-top:1px solid rgba(255,255,255,.08)">
+              <h4 style="margin:0 0 3px;font:700 16px 'Barlow',sans-serif;color:#f5f6f8">Force</h4>
+              <p style="margin:0;font:400 14px/1.5 'Barlow',sans-serif;color:#9a9fa8">Progression sur les gros mouvements : squat, développé, tirage.</p>
+            </div>
+            <div style="padding:14px 0;border-top:1px solid rgba(255,255,255,.08)">
+              <h4 style="margin:0 0 3px;font:700 16px 'Barlow',sans-serif;color:#f5f6f8">Sèche</h4>
+              <p style="margin:0;font:400 14px/1.5 'Barlow',sans-serif;color:#9a9fa8">Définition musculaire tout en préservant ta force.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="margin:20px 0 0;font:400 14px/1.6 'Barlow',sans-serif;color:#6b7079">Dans les deux cas : muscu + cardio combinés, à la salle ou à la maison, selon tes jours dispo.</p>
+    </div>
+  </section>
+
+  <!-- ================= OFFRE FONDATEUR ================= -->
+  <section data-screen-label="Offre fondateur" style="width:100%;background:radial-gradient(80% 60% at 50% 0%,rgba(122,75,214,.16),transparent 60%),#0a0b0e;border-bottom:1px solid rgba(255,255,255,.06)">
+    <div style="max-width:1000px;margin:0 auto;padding:clamp(56px,7vw,104px) clamp(22px,5vw,52px)">
+      <div style="text-align:center">
+        <span style="font:700 12px 'Barlow Semi Condensed',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8a8f98">Offre membre fondateur</span>
+      </div>
+      <div style="margin-top:34px;display:flex;flex-wrap:wrap;gap:clamp(32px,5vw,64px);align-items:center;justify-content:center">
+        <!-- carte -->
+        <div style="flex:0 0 auto;width:min(340px,86vw);aspect-ratio:1.6/1;border-radius:20px;padding:1.6px;background:linear-gradient(135deg,#ff4326,#7a4bd6 45%,#2f6bff);box-shadow:0 30px 70px rgba(47,107,255,.28),0 16px 40px rgba(255,67,38,.22)">
+          <div style="position:relative;width:100%;height:100%;border-radius:18.5px;overflow:hidden;background:linear-gradient(150deg,#181c25,#0b0d12);padding:clamp(16px,4vw,22px);display:flex;flex-direction:column;justify-content:space-between">
+            <div style="position:absolute;top:0;left:0;width:70px;height:220%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.13),transparent);animation:hcSheen 5.5s ease-in-out infinite"></div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <span style="font-family:'Anton',sans-serif;font-size:clamp(16px,4vw,19px);text-transform:uppercase;color:#f5f6f8">Hybrid Club</span>
+              <span style="width:34px;height:25px;border-radius:6px;background:linear-gradient(135deg,#ffb37a,#ff5a2e)"></span>
+            </div>
+            <span style="font:700 clamp(10px,2.4vw,11px) 'Barlow Semi Condensed',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#8a8f98">Membre fondateur</span>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between">
+              <span style="font-family:'Anton',sans-serif;font-size:clamp(32px,8vw,40px);line-height:.9;background:linear-gradient(100deg,#ff5a2e,#2f6bff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">N° 001</span>
+              <span style="font:600 14px 'Barlow',sans-serif;color:#6b7079">/ 100</span>
+            </div>
+          </div>
+        </div>
+        <!-- prix + jauge -->
+        <div style="flex:1 1 300px;min-width:280px;max-width:400px">
+          <div style="display:flex;align-items:baseline;gap:14px">
+            <span style="font-family:'Barlow',sans-serif;font-size:30px;font-weight:600;color:#6b7079;text-decoration:line-through">79€</span>
+            <span style="font-family:'Anton',sans-serif;font-size:clamp(58px,10vw,76px);line-height:.9;color:#f5f6f8">49€</span>
+            <span style="font:600 17px 'Barlow',sans-serif;color:#9a9fa8">/ an</span>
+          </div>
+          <p style="margin:12px 0 0;font:500 15px/1.5 'Barlow',sans-serif;color:#9a9fa8">La première année. 100 places de membre fondateur, puis l'offre disparaît.</p>
+          <div style="margin:24px 0 0">
+            <div style="display:flex;justify-content:space-between;font:600 12px 'Barlow Semi Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#8a8f98;margin-bottom:8px">
+              <span>Places fondateur</span><span style="color:#e9ebef">100 restantes</span>
+            </div>
+            <div style="height:9px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden">
+              <div style="width:8%;height:100%;background:linear-gradient(100deg,#ff4326,#2f6bff)"></div>
+            </div>
+          </div>
+          <a href="#cta" style="display:inline-flex;margin-top:24px;border-radius:12px;padding:15px 26px;font-family:'Anton',sans-serif;font-size:18px;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:linear-gradient(100deg,#ff4326,#ff5a2e 32%,#2f6bff);box-shadow:0 10px 34px rgba(47,107,255,.24)">Réserver ma carte</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section data-screen-label="FAQ" style="width:100%;background:#08090b;border-bottom:1px solid rgba(255,255,255,.06)">
+    <div style="max-width:760px;margin:0 auto;padding:clamp(52px,7vw,96px) clamp(22px,5vw,52px)">
+      <span style="font:700 12px 'Barlow Semi Condensed',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8a8f98">Questions fréquentes</span>
+      <h2 style="margin:12px 0 26px;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(30px,5vw,48px);line-height:1;text-transform:uppercase;color:#f5f6f8">On te répond</h2>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+          <div style="border-radius:14px;background:#111318;border:1px solid rgba(255,255,255,.08);overflow:hidden">
+            <button onClick="{{ f.toggle }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:19px 20px;background:none;border:none;cursor:pointer;text-align:left">
+              <span style="font:600 clamp(15px,2vw,17px) 'Barlow',sans-serif;color:#f5f6f8">{{ f.q }}</span>
+              <span style="flex:none;font-family:'Anton',sans-serif;font-size:24px;line-height:1;color:#ff6a3d">{{ f.sign }}</span>
+            </button>
+            <div style="{{ f.answerStyle }}">
+              <p style="margin:0;padding:0 20px 20px;font:400 15px/1.6 'Barlow',sans-serif;color:#9a9fa8">{{ f.a }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA FINAL ================= -->
+  <section id="cta" data-screen-label="CTA final" style="width:100%;background:radial-gradient(70% 80% at 50% 100%,rgba(255,67,38,.2),transparent 58%),radial-gradient(70% 80% at 50% 0%,rgba(47,107,255,.22),transparent 58%),#0a0b0e">
+    <div style="max-width:640px;margin:0 auto;padding:clamp(60px,8vw,120px) clamp(22px,5vw,52px) clamp(44px,5vw,72px);text-align:center">
+      <h2 style="margin:0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(40px,7vw,72px);line-height:.92;text-transform:uppercase;color:#f5f6f8">Réserve ta<br><span style="background:linear-gradient(100deg,#ff5a2e,#2f6bff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">carte fondateur</span></h2>
+      <p style="margin:16px auto 0;max-width:420px;font:400 clamp(15px,2vw,18px)/1.5 'Barlow',sans-serif;color:#9a9fa8">Rejoins le club avant que les 100 places soient prises.</p>
+      <div style="margin:28px auto 0;max-width:480px">
+        <sc-if value="{{ notDoneBottom }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ submitBottom }}" style="display:flex;flex-wrap:wrap;gap:10px">
+            <input type="email" required value="{{ emailBottom }}" onChange="{{ onEmailBottom }}" placeholder="ton@email.com" style="flex:1 1 220px;min-width:0;background:#111318;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:16px;color:#f5f6f8;font:400 16px 'Barlow',sans-serif;outline:none">
+            <button type="submit" disabled="{{ sendingBottom }}" style="flex:1 1 200px;border:none;border-radius:12px;padding:16px 22px;font-family:'Anton',sans-serif;font-size:19px;letter-spacing:.04em;text-transform:uppercase;color:#fff;cursor:pointer;background:linear-gradient(100deg,#ff4326,#ff5a2e 32%,#2f6bff);box-shadow:0 10px 34px rgba(47,107,255,.28),0 6px 24px rgba(255,67,38,.24)">{{ labelBottom }}</button>
+          </form>
+          <sc-if value="{{ errorBottom }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:rgba(255,67,38,.09);border:1px solid rgba(255,67,38,.32);font:600 13px 'Barlow',sans-serif;color:#ff8b6d;text-align:left">Impossible d'enregistrer ton email. Réessaie dans un instant.</div>
+          </sc-if>
+        </sc-if>
+        <sc-if value="{{ doneBottom }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:11px;padding:16px;border-radius:12px;background:rgba(47,107,255,.1);border:1px solid rgba(47,107,255,.35);text-align:left">
+            <span style="flex:none;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#ff4326,#2f6bff);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">✓</span>
+            <span style="font:600 14px 'Barlow',sans-serif;color:#e9ebef">Bienvenue au club. On te contacte dès l'ouverture.</span>
+          </div>
+        </sc-if>
+        <p style="margin:12px 0 0;font:400 12px 'Barlow',sans-serif;color:#6b7079">Ton email ne sera jamais revendu. Désinscription en 1 clic.</p>
+      </div>
+      <div style="margin:44px 0 0;font:600 12px 'Barlow',sans-serif;letter-spacing:.04em;color:#4f545c">HYBRID CLUB · Par Hybrid</div>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    openFaq: 0,
+    emailTop: '', emailBottom: '',
+    doneTop: false, doneBottom: false,
+    sendingTop: false, sendingBottom: false,
+    errorTop: false, errorBottom: false,
+  };
+
+  steps = [
+    { n: '1', title: 'Réponds à quelques questions', desc: 'Sexe, objectif, niveau, matériel (salle ou maison), jours dispo. 3 minutes.' },
+    { n: '2', title: 'Reçois ton programme', desc: 'Muscu + cardio + cadre alimentaire, 100% adaptés à ton profil et générés par IA.' },
+    { n: '3', title: 'Progresse', desc: "Toutes les 4 à 6 semaines, ton programme évolue selon tes résultats." },
+  ];
+
+  faqData = [
+    { q: "C'est une appli ?", a: "Oui — une application web accessible depuis ton navigateur (versions iOS/Android à venir). Rien à installer pour démarrer, ça marche aussi dans Snapchat." },
+    { q: "Ça remplace un coach ?", a: "Non, et ce n'est pas le but. L'IA construit un cadre solide et l'ajuste à ta progression. Pour un suivi médical ou une prépa compétition, un coach humain reste indispensable." },
+    { q: "Je débute, c'est pour moi ?", a: "Oui. Tu indiques ton niveau au départ et le programme démarre là où tu en es : mouvements guidés, charges et volume progressifs." },
+    { q: "Sans matériel, à la maison ?", a: "Oui. Tu choisis « maison » ou « salle » et le matériel dont tu disposes. Les séances s'adaptent, même au poids du corps." },
+    { q: "Quel engagement ?", a: "Aucun engagement de durée. L'offre fondateur, c'est 49€ pour ta première année. Ensuite tu restes libre de continuer ou non." },
+    { q: "Mes données ?", a: "Elles servent uniquement à personnaliser ton programme. Jamais revendues. Tu peux les exporter ou les supprimer quand tu veux." },
+  ];
+
+  toggleFaq(i) {
+    this.setState(s => ({ openFaq: s.openFaq === i ? null : i }));
+  }
+
+  // Passe par /api/waitlist (fonction Vercel) qui détient la clé Brevo côté serveur.
+  // Renvoie true seulement si le contact est bien arrivé dans Brevo.
+  async saveEmail(email, source) {
+    try {
+      const r = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source }),
+      });
+      return r.ok;
+    } catch (e) {
+      console.warn('[Hybrid Club] inscription échouée', e);
+      return false;
+    }
+  }
+
+  valid(email) { return /\S+@\S+\.\S+/.test(email); }
+
+  renderVals() {
+    const st = this.state;
+    const openFaq = st.openFaq;
+    const faqs = this.faqData.map((f, i) => {
+      const isOpen = openFaq === i;
+      return {
+        q: f.q,
+        a: f.a,
+        sign: isOpen ? '\u2212' : '+',
+        toggle: () => this.toggleFaq(i),
+        answerStyle: {
+          overflow: 'hidden',
+          transition: 'max-height .35s ease, opacity .3s ease',
+          maxHeight: isOpen ? '360px' : '0px',
+          opacity: isOpen ? 1 : 0,
+        },
+      };
+    });
+
+    return {
+      steps: this.steps,
+      faqs,
+      emailTop: st.emailTop,
+      emailBottom: st.emailBottom,
+      doneTop: st.doneTop,
+      doneBottom: st.doneBottom,
+      notDoneTop: !st.doneTop,
+      notDoneBottom: !st.doneBottom,
+      sendingTop: st.sendingTop,
+      sendingBottom: st.sendingBottom,
+      errorTop: st.errorTop,
+      errorBottom: st.errorBottom,
+      labelTop: st.sendingTop ? 'Envoi…' : 'Réserver ma carte',
+      labelBottom: st.sendingBottom ? 'Envoi…' : 'Réserver ma carte',
+      onEmailTop: (e) => this.setState({ emailTop: e.target.value }),
+      onEmailBottom: (e) => this.setState({ emailBottom: e.target.value }),
+      submitTop: async (e) => {
+        e.preventDefault();
+        if (this.state.sendingTop || !this.valid(this.state.emailTop)) return;
+        this.setState({ sendingTop: true, errorTop: false });
+        const ok = await this.saveEmail(this.state.emailTop, 'hero');
+        this.setState({ sendingTop: false, doneTop: ok, errorTop: !ok });
+      },
+      submitBottom: async (e) => {
+        e.preventDefault();
+        if (this.state.sendingBottom || !this.valid(this.state.emailBottom)) return;
+        this.setState({ sendingBottom: true, errorBottom: false });
+        const ok = await this.saveEmail(this.state.emailBottom, 'cta_final');
+        this.setState({ sendingBottom: false, doneBottom: ok, errorBottom: !ok });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

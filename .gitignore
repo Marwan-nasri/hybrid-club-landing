@@ -1,0 +1,15 @@
+# Secrets — ne doivent jamais être commités
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel
+
+# OS / éditeurs
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+node_modules/
