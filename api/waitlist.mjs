@@ -3,10 +3,38 @@
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+// Limite par IP, en mémoire de l'instance.
+// Volontairement large : les réseaux mobiles partagent une même IP entre
+// beaucoup d'abonnés, une limite trop basse bloquerait de vrais visiteurs.
+const WINDOW_MS = 10 * 60 * 1000;
+const MAX_PER_WINDOW = 10;
+const hits = new Map();
+
+function rateLimited(ip) {
+  const now = Date.now();
+
+  // Purge des entrées expirées — sinon la Map grossit sans fin sur une instance chaude.
+  for (const [k, v] of hits) if (v.resetAt <= now) hits.delete(k);
+
+  const entry = hits.get(ip);
+  if (!entry || entry.resetAt <= now) {
+    hits.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > MAX_PER_WINDOW;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'method_not_allowed' });
+  }
+
+  const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'inconnue';
+  if (rateLimited(ip)) {
+    console.warn('[waitlist] limite atteinte pour', ip);
+    return res.status(429).json({ error: 'rate_limited' });
   }
 
   const apiKey = process.env.BREVO_API_KEY;
