@@ -10,6 +10,46 @@ const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 10;
 const hits = new Map();
 
+// Notification interne : un mail à chaque inscription pour être prévenu en temps réel.
+// Volontairement « best effort » — si Brevo refuse l'envoi, l'inscription reste un succès.
+// NOTIFY_TO   : destinataire de l'alerte (ta boîte).
+// NOTIFY_FROM : expéditeur, DOIT être un expéditeur validé dans Brevo.
+async function notify(apiKey, { email, source, ip, duplicate }) {
+  const to = process.env.NOTIFY_TO;
+  const from = process.env.NOTIFY_FROM;
+  if (!to || !from) return; // notif non configurée : on ne bloque rien
+
+  try {
+    const r = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'api-key': apiKey,
+        'content-type': 'application/json',
+        accept: 'application/json',
+      },
+      body: JSON.stringify({
+        sender: { email: from, name: 'Hybrid Club' },
+        to: [{ email: to }],
+        subject: duplicate
+          ? `Réinscription liste d'attente : ${email}`
+          : `Nouvelle inscription liste d'attente : ${email}`,
+        textContent:
+          `Email : ${email}\n` +
+          `Provenance : ${source || 'inconnue'}\n` +
+          `IP : ${ip}\n` +
+          `Doublon : ${duplicate ? 'oui' : 'non'}\n` +
+          `Date : ${new Date().toISOString()}`,
+      }),
+    });
+    if (!r.ok) {
+      const body = await r.json().catch(() => ({}));
+      console.error('[waitlist] notif email refusée', r.status, body);
+    }
+  } catch (e) {
+    console.error('[waitlist] notif email échouée', e);
+  }
+}
+
 function rateLimited(ip) {
   const now = Date.now();
 
@@ -71,7 +111,10 @@ export default async function handler(req, res) {
 
   try {
     let r = await send(true);
-    if (r.ok) return res.status(200).json({ ok: true });
+    if (r.ok) {
+      await notify(apiKey, { email: clean, source, ip, duplicate: false });
+      return res.status(200).json({ ok: true });
+    }
 
     let body = await r.json().catch(() => ({}));
 
@@ -80,12 +123,16 @@ export default async function handler(req, res) {
     if (r.status === 400 && /attribute/i.test(body.message || '')) {
       console.warn('[waitlist] attribut SOURCE absent — réessai sans attribut');
       r = await send(false);
-      if (r.ok) return res.status(200).json({ ok: true });
+      if (r.ok) {
+        await notify(apiKey, { email: clean, source, ip, duplicate: false });
+        return res.status(200).json({ ok: true });
+      }
       body = await r.json().catch(() => ({}));
     }
 
     if (body.code === 'duplicate_parameter') {
       // Déjà dans la liste : côté visiteur c'est un succès.
+      await notify(apiKey, { email: clean, source, ip, duplicate: true });
       return res.status(200).json({ ok: true, duplicate: true });
     }
 
