@@ -17,7 +17,15 @@ const hits = new Map();
 async function notify(apiKey, { email, source, ip, duplicate }) {
   const to = process.env.NOTIFY_TO;
   const from = process.env.NOTIFY_FROM;
-  if (!to || !from) return; // notif non configurée : on ne bloque rien
+  if (!to || !from) {
+    // Notif non configurée : on ne bloque pas l'inscription, mais on le signale
+    // pour ne pas rester aveugle si une variable manque en production.
+    console.warn(
+      '[waitlist] notif désactivée — NOTIFY_TO présent:', Boolean(to),
+      '| NOTIFY_FROM présent:', Boolean(from),
+    );
+    return;
+  }
 
   try {
     const r = await fetch('https://api.brevo.com/v3/smtp/email', {
